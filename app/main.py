@@ -10,12 +10,11 @@ class Distance:
 
     def __add__(self, other: Distance | int | float) -> Distance | None:
         if isinstance(other, float) or isinstance(other, int):
-
-            self.km = self.km + other
-            return self
+            result = self.km + other
+            return Distance(km=result)
         elif isinstance(other, Distance):
-            self.km = self.km + other.km
-            return self
+            result = self.km + other.km
+            return Distance(km=result)
 
     def __iadd__(self, other: Distance | int | float) -> Distance | None:
         if isinstance(other, float) or isinstance(other, int):
@@ -48,12 +47,16 @@ class Distance:
         trig = False
         if isinstance(other, float) or isinstance(other, int):
             trig = self.km > other
-        elif isinstance(other, Distance):
+        if isinstance(other, Distance):
             trig = self.km > other.km
         return trig
 
     def __eq__(self, other: Distance | int | float) -> bool:
-        trig = self.km == other
+        trig = False
+        if isinstance(other, float) or isinstance(other, int):
+            trig = self.km == other
+        elif isinstance(other, Distance):
+            trig = self.km == other.km
         return trig
 
     def __le__(self, other: Distance | int | float) -> bool:
